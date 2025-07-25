@@ -2,8 +2,18 @@ extends CharacterBody2D
 
 const SPEED = 100.0
 
-func _physics_process(delta: float) -> void:
+var input_vector = Vector2.ZERO
+
+@onready var animation_tree: AnimationTree = $AnimationTree
+
+func _physics_process(_delta: float) -> void:
 	
-	var input_vector = Input.get_vector("ui_left","ui_right","ui_up","ui_down")
+	input_vector = Input.get_vector("ui_left","ui_right","ui_up","ui_down")
 	velocity = input_vector * SPEED
+	
+	if input_vector != Vector2.ZERO:
+		var direction_vector: = Vector2(input_vector.x, -input_vector.y) #Correction for y vector placement due to (0,0) origin placement
+		animation_tree.set("parameters/StateMachine/MoveState/RunState/blend_position", direction_vector)
+		animation_tree.set("parameters/StateMachine/MoveState/StandState/blend_position", direction_vector)
+		
 	move_and_slide()
