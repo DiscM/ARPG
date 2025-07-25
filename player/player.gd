@@ -13,7 +13,10 @@ func _physics_process(_delta: float) -> void:
 	
 	if input_vector != Vector2.ZERO:
 		var direction_vector: = Vector2(input_vector.x, -input_vector.y) #Correction for y vector placement due to (0,0) origin placement
-		animation_tree.set("parameters/StateMachine/MoveState/RunState/blend_position", direction_vector)
-		animation_tree.set("parameters/StateMachine/MoveState/StandState/blend_position", direction_vector)
+		update_blend_position(direction_vector)
 		
 	move_and_slide()
+
+func update_blend_position(direction_vector: Vector2) -> void:
+	animation_tree.set("parameters/StateMachine/MoveState/RunState/blend_position", direction_vector)
+	animation_tree.set("parameters/StateMachine/MoveState/StandState/blend_position", direction_vector)
