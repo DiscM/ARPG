@@ -1,8 +1,43 @@
-[gd_scene load_steps=2 format=3 uid="uid://dide8b443gl5q"]
+[gd_scene load_steps=5 format=3 uid="uid://dide8b443gl5q"]
 
 [ext_resource type="PackedScene" uid="uid://dy58xhy671uro" path="res://player/player.tscn" id="1_f3sb7"]
+[ext_resource type="Texture2D" uid="uid://clhdtmrdc1mvf" path="res://world/grass_background.png" id="1_fj7yv"]
+[ext_resource type="PackedScene" uid="uid://b8atri78pp7w0" path="res://world/bush.tscn" id="3_tlwt5"]
+[ext_resource type="PackedScene" uid="uid://d08jn610n5pmv" path="res://world/tree.tscn" id="4_aqk2v"]
 
 [node name="World" type="Node2D"]
+y_sort_enabled = true
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+repeat_size = Vector2(320, 192)
+
+[node name="GrassBackground" type="TextureRect" parent="Parallax2D"]
+offset_right = 320.0
+offset_bottom = 192.0
+texture = ExtResource("1_fj7yv")
+stretch_mode = 1
 
 [node name="Player" parent="." instance=ExtResource("1_f3sb7")]
 position = Vector2(63, 33)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+process_callback = 0
+position_smoothing_enabled = true
+
+[node name="Bush" parent="." instance=ExtResource("3_tlwt5")]
+position = Vector2(66, 98)
+
+[node name="Bush2" parent="." instance=ExtResource("3_tlwt5")]
+position = Vector2(114, 72)
+
+[node name="Bush3" parent="." instance=ExtResource("3_tlwt5")]
+position = Vector2(151, 41)
+
+[node name="Tree" parent="." instance=ExtResource("4_aqk2v")]
+position = Vector2(21, 70)
+
+[node name="Tree2" parent="." instance=ExtResource("4_aqk2v")]
+position = Vector2(163, 88)
+
+[node name="Tree3" parent="." instance=ExtResource("4_aqk2v")]
+position = Vector2(105, 24)
