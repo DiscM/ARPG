@@ -19,7 +19,7 @@ func _physics_process(_delta: float) -> void:
 		"RollState": roll_state(_delta)
 		
 func roll_state(delta: float) -> void:
-		velocity = last_input_vector * ROLLSPEED
+		velocity = last_input_vector.normalized() * ROLLSPEED
 		move_and_slide()
 func move_state(delta: float) -> void:
 	input_vector = Input.get_vector("move_left","move_right","move_up","move_down")
