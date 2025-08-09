@@ -29,7 +29,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [PackedVector2Array(6, 3, 17, 3, 18, 4, 18, 5, 17, 6, 6, 6)]
+"values": [PackedVector2Array()]
 }
 
 [sub_resource type="Animation" id="Animation_kb6p2"]
@@ -476,12 +476,12 @@ transitions = ["Start", "MoveState", SubResource("AnimationNodeStateMachineTrans
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_g1dw6"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_ebec5"]
-graph_offset = Vector2(-159.213, -34.6443)
+graph_offset = Vector2(-231.301, 56.854)
 nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_2ieo8")
 nodes/StateMachine/position = Vector2(53.3333, 160)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_g1dw6")
-nodes/TimeScale/position = Vector2(652.987, 158.94)
-nodes/output/position = Vector2(906.667, 186.667)
+nodes/TimeScale/position = Vector2(320, 160)
+nodes/output/position = Vector2(533.333, 133.333)
 node_connections = [&"TimeScale", 0, &"StateMachine", &"output", 0, &"TimeScale"]
 
 [node name="Player" type="CharacterBody2D"]
@@ -499,6 +499,7 @@ libraries = {
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 callback_mode_process = 0
+callback_mode_discrete = 1
 tree_root = SubResource("AnimationNodeBlendTree_ebec5")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
@@ -519,4 +520,3 @@ texture = ExtResource("3_g1dw6")
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
-polygon = PackedVector2Array(6, 3, 17, 3, 18, 4, 18, 5, 17, 6, 6, 6)
