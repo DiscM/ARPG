@@ -1,0 +1,77 @@
+[gd_scene load_steps=8 format=3 uid="uid://del4yb5erlwo8"]
+
+[ext_resource type="Texture2D" uid="uid://60v1d0medbw4" path="res://enemies/bat.png" id="1_e7gs6"]
+[ext_resource type="Texture2D" uid="uid://cia2qrfargev4" path="res://shadows/small_shadow.png" id="2_5gx0a"]
+
+[sub_resource type="Animation" id="Animation_e7gs6"]
+resource_name = "fly"
+length = 0.5
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_5gx0a"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_grp10"]
+_data = {
+&"RESET": SubResource("Animation_5gx0a"),
+&"fly": SubResource("Animation_e7gs6")
+}
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_e7gs6"]
+graph_offset = Vector2(-146.667, 96)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e7gs6"]
+radius = 6.08276
+
+[node name="BatEnemy" type="CharacterBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_e7gs6")
+offset = Vector2(0, -4)
+hframes = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_grp10")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeBlendTree_e7gs6")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -9)
+shape = SubResource("CircleShape2D_e7gs6")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+show_behind_parent = true
+texture = ExtResource("2_5gx0a")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
