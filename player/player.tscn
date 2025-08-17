@@ -520,7 +520,7 @@ nodes/TimeScale/position = Vector2(320, 160)
 nodes/output/position = Vector2(533.333, 133.333)
 node_connections = [&"TimeScale", 0, &"StateMachine", &"output", 0, &"TimeScale"]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 motion_mode = 1
 script = ExtResource("1_rkbax")
 
