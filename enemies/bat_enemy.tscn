@@ -53,10 +53,12 @@ animation = &"fly"
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_erta8"]
-advance_mode = 0
+advance_mode = 2
+advance_expression = "is_player_in_range()"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ww8v4"]
 advance_mode = 0
+advance_expression = "not is_player_in_range()"
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_boacx"]
 states/Chase/node = SubResource("AnimationNodeAnimation_e7gs6")
@@ -66,10 +68,10 @@ states/Idle/node = SubResource("AnimationNodeAnimation_5gx0a")
 states/Idle/position = Vector2(445.333, 74)
 states/Start/position = Vector2(214.667, 75.1111)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_grp10"), "Idle", "Chase", SubResource("AnimationNodeStateMachineTransition_erta8"), "Chase", "Idle", SubResource("AnimationNodeStateMachineTransition_ww8v4")]
-graph_offset = Vector2(10.6804, -30.2437)
+graph_offset = Vector2(-1.3196, -7.2437)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_e7gs6"]
-graph_offset = Vector2(-269.333, 29.3333)
+graph_offset = Vector2(-201.333, 97.3333)
 nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_boacx")
 nodes/StateMachine/position = Vector2(0, 106.667)
 node_connections = [&"output", 0, &"StateMachine"]
@@ -79,6 +81,7 @@ radius = 6.08276
 
 [node name="BatEnemy" type="CharacterBody2D"]
 script = ExtResource("1_5gx0a")
+range = 104
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_e7gs6")
@@ -92,6 +95,7 @@ libraries = {
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeBlendTree_e7gs6")
+advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
