@@ -54,11 +54,11 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_erta8"]
 advance_mode = 2
-advance_expression = "is_player_in_range()"
+advance_expression = "can_see_player()"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ww8v4"]
-advance_mode = 0
-advance_expression = "not is_player_in_range()"
+advance_mode = 2
+advance_expression = "not can_see_player()"
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_boacx"]
 states/Chase/node = SubResource("AnimationNodeAnimation_e7gs6")
@@ -66,12 +66,12 @@ states/Chase/position = Vector2(446.667, 168.667)
 states/End/position = Vector2(641.333, 73.7284)
 states/Idle/node = SubResource("AnimationNodeAnimation_5gx0a")
 states/Idle/position = Vector2(445.333, 74)
-states/Start/position = Vector2(214.667, 75.1111)
+states/Start/position = Vector2(210.667, 70.6173)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_grp10"), "Idle", "Chase", SubResource("AnimationNodeStateMachineTransition_erta8"), "Chase", "Idle", SubResource("AnimationNodeStateMachineTransition_ww8v4")]
 graph_offset = Vector2(-1.3196, -7.2437)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_e7gs6"]
-graph_offset = Vector2(-201.333, 97.3333)
+graph_offset = Vector2(-699.585, 93.5643)
 nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_boacx")
 nodes/StateMachine/position = Vector2(0, 106.667)
 node_connections = [&"output", 0, &"StateMachine"]
@@ -80,8 +80,10 @@ node_connections = [&"output", 0, &"StateMachine"]
 radius = 6.08276
 
 [node name="BatEnemy" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 7
+motion_mode = 1
 script = ExtResource("1_5gx0a")
-range = 104
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_e7gs6")
@@ -106,6 +108,5 @@ shape = SubResource("CircleShape2D_e7gs6")
 show_behind_parent = true
 texture = ExtResource("2_5gx0a")
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(8, 0)

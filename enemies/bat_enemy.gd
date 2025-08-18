@@ -2,11 +2,12 @@ extends CharacterBody2D
 
 const SPEED = 30.0 
 
-@export var range : = 128
+@export var range : = 125.0
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var playback = animation_tree.get("parameters/StateMachine/playback") as AnimationNodeStateMachinePlayback
+@onready var ray_cast_2d: RayCast2D = $RayCast2D
 
 func _physics_process(delta: float) -> void:
 	var state = playback.get_current_node()
@@ -33,3 +34,10 @@ func is_player_in_range() -> bool:
 		if distance_to_player < range: 
 			result = true
 	return result
+	
+func can_see_player() -> bool:
+	if not is_player_in_range(): return false
+	var player: = get_player()
+	ray_cast_2d.target_position = player.global_position - global_position
+	var has_los_to_player: = not ray_cast_2d.is_colliding()
+	return has_los_to_player

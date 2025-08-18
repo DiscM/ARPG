@@ -409,6 +409,8 @@ position = Vector2(105, 24)
 
 [node name="BatEnemy" parent="." instance=ExtResource("8_gbfbk")]
 position = Vector2(154, 148)
+range = 125.0
 
 [node name="BatEnemy2" parent="." instance=ExtResource("8_gbfbk")]
 position = Vector2(14, 151)
+range = 125.0
