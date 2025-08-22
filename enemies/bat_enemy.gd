@@ -12,6 +12,7 @@ const FRICTION = 500
 @onready var hurtbox: Hurtbox = $Hurtbox
 
 func _ready() -> void:
+	stats = stats.duplicate()
 	hurtbox.hurt.connect(take_hit.call_deferred)
 	stats.no_health.connect(queue_free)
 

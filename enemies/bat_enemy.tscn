@@ -1,10 +1,11 @@
-[gd_scene load_steps=22 format=3 uid="uid://del4yb5erlwo8"]
+[gd_scene load_steps=24 format=3 uid="uid://del4yb5erlwo8"]
 
 [ext_resource type="Script" uid="uid://w6jym4hljabr" path="res://enemies/bat_enemy.gd" id="1_5gx0a"]
 [ext_resource type="Texture2D" uid="uid://60v1d0medbw4" path="res://enemies/bat.png" id="1_e7gs6"]
 [ext_resource type="Texture2D" uid="uid://cia2qrfargev4" path="res://shadows/small_shadow.png" id="2_5gx0a"]
 [ext_resource type="Script" uid="uid://chxb58j5sd31u" path="res://stats.gd" id="2_erta8"]
 [ext_resource type="Script" uid="uid://dvp4ikihl7c0m" path="res://damage_boxes/hurtbox.gd" id="4_grp10"]
+[ext_resource type="Script" uid="uid://oscmjqwfvm26" path="res://damage_boxes/hitbox.gd" id="6_ww8v4"]
 
 [sub_resource type="Resource" id="Resource_ww8v4"]
 script = ExtResource("2_erta8")
@@ -48,7 +49,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [7]
+"values": [5]
 }
 
 [sub_resource type="Animation" id="Animation_e7gs6"]
@@ -107,7 +108,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [3, 7]
+"values": [1, 5]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_grp10"]
@@ -154,7 +155,6 @@ transitions = ["Start", "IdleState", SubResource("AnimationNodeStateMachineTrans
 graph_offset = Vector2(-1.3196, -7.2437)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_e7gs6"]
-graph_offset = Vector2(-24.6364, -7.18182)
 nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_boacx")
 nodes/StateMachine/position = Vector2(0, 106.667)
 node_connections = [&"output", 0, &"StateMachine"]
@@ -165,10 +165,13 @@ radius = 6.08276
 [sub_resource type="CircleShape2D" id="CircleShape2D_5gx0a"]
 radius = 3.16228
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_boacx"]
+radius = 4.12311
+
 [node name="BatEnemy" type="CharacterBody2D"]
 position = Vector2(1, 0)
 collision_layer = 4
-collision_mask = 7
+collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_5gx0a")
 stats = SubResource("Resource_ww8v4")
@@ -208,3 +211,13 @@ metadata/_custom_type_script = "uid://dvp4ikihl7c0m"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_5gx0a")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("6_ww8v4")
+metadata/_custom_type_script = "uid://oscmjqwfvm26"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_boacx")

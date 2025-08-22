@@ -3,13 +3,25 @@ class_name Player extends CharacterBody2D
 const SPEED = 100.0
 const ROLLSPEED = 125.0
 
+@export var stats: Stats
+
 var input_vector = Vector2.ZERO
 var last_input_vector = Vector2.ZERO
 
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var playback = animation_tree.get("parameters/StateMachine/playback") as AnimationNodeStateMachinePlayback
 @onready var hitbox: Hitbox = $Hitbox
+@onready var hurtbox: Hurtbox = $Hurtbox
+@onready var blink_animation_player: AnimationPlayer = $BlinkAnimationPlayer
 
+func _ready() -> void:
+	hurtbox.hurt.connect(take_hit.call_deferred)
+	stats.no_health.connect(die)
+	
+func take_hit(other_hitbox: Hitbox):
+	stats.health -= other_hitbox.damage
+	blink_animation_player.play("blink")
+	
 func _physics_process(_delta: float) -> void:
 	var state = playback.get_current_node()
 	match state:
@@ -18,7 +30,11 @@ func _physics_process(_delta: float) -> void:
 		"AttackState":
 			pass
 		"RollState": roll_state(_delta)
-		
+func die() -> void:
+	hide()
+	remove_from_group("player")
+	process_mode = Node.PROCESS_MODE_DISABLED
+	
 func roll_state(delta: float) -> void:
 		velocity = last_input_vector.normalized() * ROLLSPEED
 		move_and_slide()

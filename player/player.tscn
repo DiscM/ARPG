@@ -1,9 +1,17 @@
-[gd_scene load_steps=55 format=3 uid="uid://dy58xhy671uro"]
+[gd_scene load_steps=62 format=3 uid="uid://dy58xhy671uro"]
 
 [ext_resource type="Texture2D" uid="uid://2v8a5v8m7q18" path="res://player/player.png" id="1_oul6g"]
 [ext_resource type="Script" uid="uid://0np3yqwasobu" path="res://player/player.gd" id="1_rkbax"]
+[ext_resource type="Script" uid="uid://chxb58j5sd31u" path="res://stats.gd" id="2_qjkh3"]
 [ext_resource type="Texture2D" uid="uid://csm7wxbcac7tj" path="res://shadows/medium_shadow.png" id="3_g1dw6"]
 [ext_resource type="Script" uid="uid://oscmjqwfvm26" path="res://damage_boxes/hitbox.gd" id="4_yw30f"]
+[ext_resource type="Script" uid="uid://dvp4ikihl7c0m" path="res://damage_boxes/hurtbox.gd" id="6_g6k8r"]
+
+[sub_resource type="Resource" id="Resource_g6k8r"]
+script = ExtResource("2_qjkh3")
+health = 4
+max_health = 4
+metadata/_custom_type_script = "uid://chxb58j5sd31u"
 
 [sub_resource type="Animation" id="Animation_g1dw6"]
 length = 0.001
@@ -573,7 +581,6 @@ transitions = ["Start", "MoveState", SubResource("AnimationNodeStateMachineTrans
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_g1dw6"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_ebec5"]
-graph_offset = Vector2(-178.667, 109.333)
 nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_2ieo8")
 nodes/StateMachine/position = Vector2(53.3333, 160)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_g1dw6")
@@ -581,11 +588,76 @@ nodes/TimeScale/position = Vector2(320, 160)
 nodes/output/position = Vector2(533.333, 133.333)
 node_connections = [&"TimeScale", 0, &"StateMachine", &"output", 0, &"TimeScale"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_boad6"]
+size = Vector2(9, 12)
+
+[sub_resource type="Animation" id="Animation_c35mf"]
+resource_name = "blink"
+length = 0.5
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true, false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hurtbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_65viv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hurtbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_x7c3f"]
+_data = {
+&"RESET": SubResource("Animation_65viv"),
+&"blink": SubResource("Animation_c35mf")
+}
+
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
-collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_rkbax")
+stats = SubResource("Resource_g6k8r")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_oul6g")
@@ -623,3 +695,18 @@ script = ExtResource("4_yw30f")
 knockback_direction = Vector2(0, 1)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hitbox"]
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("6_g6k8r")
+metadata/_custom_type_script = "uid://dvp4ikihl7c0m"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(-0.5, 5)
+shape = SubResource("RectangleShape2D_boad6")
+
+[node name="BlinkAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_x7c3f")
+}
