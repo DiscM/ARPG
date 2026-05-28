@@ -93,9 +93,3 @@ End of capture:
 Gameplay video:
 
 - [capture_playtest.avi](capture_playtest.avi)
-
-## Notes
-
-- The build boots successfully in Godot 4.6.1.
-- The combat loop is present and playable in the captured footage.
-- A visible HUD still looks like a likely next improvement if you want clearer health feedback during play.
